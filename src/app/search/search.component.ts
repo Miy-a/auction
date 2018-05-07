@@ -115,7 +115,7 @@ export class SearchComponent implements OnInit {
       return null;
     } else {
       return {
-        titleValidator: true;
+        titleValidator: true
     }
       ;
     }
@@ -135,6 +135,8 @@ export class SearchComponent implements OnInit {
   onSearch() {
     if (this.formModel.valid) {
       console.log(this.formModel.value);
+    } else {
+      this.onValueChanged();
     }
   }
 }
