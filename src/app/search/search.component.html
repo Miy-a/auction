@@ -1,0 +1,39 @@
+<!--响应式表单-->
+<!--formModel对应后面的formModel:FormGroup;     novalidate禁用浏览器默认的校验方法-->
+<script src="search.component.ts"></script>
+<form [formGroup]="formModel" (ngSubmit)="onSearch()" novalidate>
+  <!--当title字段的minlength校验有错误的时候-->
+  <div class="form-group" [class.has-error]="formModel.hasError('minlength','title')">
+    <label for="productTitle">商品名称</label>
+    <!--formControlName对应的是后台的this.formModel = fb.group({}）中的三个字段-->
+    <input formControlName="title" type="text" id="productTitle" placeholder="商品名称" class="form-control">
+    <span class="help-block" [class.hidden]="!formModel.hasError('minlength','title')">请至少输入3个字</span>
+  </div>
+  <div class="form-group" [class.has-error]="formModel.hasError('positiveNumber','price')">
+    <label for="productPrice">商品价格</label>
+    <input formControlName="price" type="number" id="productPrice" placeholder="商品价格" class="form-control">
+    <span class="help-block" [class.hidden]="!formModel.hasError('positiveNumber','price')">请输入正数</span>
+  </div>
+  <div class="form-group">
+    <label for="productCategory">商品类别</label>
+    <select formControlName="category" id="productCategory" class="form-control">
+      <option value="-1">全部分类</option>
+      <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>性别</label>
+    <div class="form-control">
+      <label for="productMan">
+        <input type="radio" id="productMan" name="sex">男
+      </label>
+      <label for="productWoman">
+        <input type="radio" id="productWoman" name="sex">女
+      </label>
+    </div>
+
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary btn-block">搜索</button>
+  </div>
+</form>
