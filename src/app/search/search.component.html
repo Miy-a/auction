@@ -1,39 +1,33 @@
-<!--响应式表单-->
-<!--formModel对应后面的formModel:FormGroup;     novalidate禁用浏览器默认的校验方法-->
 <script src="search.component.ts"></script>
 <form [formGroup]="formModel" (ngSubmit)="onSearch()" novalidate>
-  <!--当title字段的minlength校验有错误的时候-->
-  <div class="form-group" [class.has-error]="formModel.hasError('minlength','title')">
+  <div class="form-group"  [class.has-error]="formErrors.title">
     <label for="productTitle">商品名称</label>
-    <!--formControlName对应的是后台的this.formModel = fb.group({}）中的三个字段-->
     <input formControlName="title" type="text" id="productTitle" placeholder="商品名称" class="form-control">
-    <span class="help-block" [class.hidden]="!formModel.hasError('minlength','title')">请至少输入3个字</span>
+    <span class="help-block" *ngIf="formErrors.title">{{ formErrors.title }}</span>
   </div>
-  <div class="form-group" [class.has-error]="formModel.hasError('positiveNumber','price')">
+  <div class="form-group"  [class.has-error]="formErrors.price">
     <label for="productPrice">商品价格</label>
-    <input formControlName="price" type="number" id="productPrice" placeholder="商品价格" class="form-control">
-    <span class="help-block" [class.hidden]="!formModel.hasError('positiveNumber','price')">请输入正数</span>
+    <input formControlName="price" type="text" id="productPrice" placeholder="商品价格" class="form-control">
+    <span class="help-block" *ngIf="formErrors.price">{{ formErrors.price }}</span>
   </div>
-  <div class="form-group">
+  <div class="form-group" [class.has-error]="formErrors.category">
     <label for="productCategory">商品类别</label>
     <select formControlName="category" id="productCategory" class="form-control">
-      <option value="-1">全部分类</option>
-      <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+      <option value="0">全部分类</option>
+      <option *ngFor="let category of categories" [value]="category.name">{{category.name}}</option>
     </select>
+    <span class="help-block" *ngIf="formErrors.category">{{ formErrors.category }}</span>
   </div>
-  <div class="form-group">
+  <div class="form-group" [class.has-error]="formErrors.sex">
     <label>性别</label>
     <div class="form-control">
-      <label for="productMan">
-        <input type="radio" id="productMan" name="sex">男
-      </label>
-      <label for="productWoman">
-        <input type="radio" id="productWoman" name="sex">女
+      <label *ngFor="let sex of sexes">
+        <input type="radio" name="sex" formControlName="sex" [value]="sex.value" >{{sex.value}}
       </label>
     </div>
-
+    <span class="help-block" *ngIf="formErrors.sex">{{ formErrors.sex }}</span>
   </div>
   <div class="form-group">
-    <button type="submit" class="btn btn-primary btn-block">搜索</button>
+    <button type="submit" class="btn btn-primary btn-block" (click)="onSearch()">搜索</button>
   </div>
 </form>
